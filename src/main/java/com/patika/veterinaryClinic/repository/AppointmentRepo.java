@@ -19,6 +19,8 @@ public interface AppointmentRepo extends JpaRepository<Appointment, Long> {
                                                   @Param("date") LocalDate date,
                                                   @Param("hour") int hour);
 
+    boolean existsByDoctorIdAndAppointmentDate(Long doctorId, LocalDateTime appointmentDate);
+
     List<Appointment> findByDoctorIdAndAppointmentDateBetween(Long doctorId, LocalDateTime start, LocalDateTime end);
 
     List<Appointment> findByAnimalIdAndAppointmentDateBetween(Long animalId, LocalDateTime start, LocalDateTime end);

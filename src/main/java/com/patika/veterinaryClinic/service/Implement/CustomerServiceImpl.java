@@ -8,6 +8,7 @@ import com.patika.veterinaryClinic.dto.response.DoctorResponseDto;
 import com.patika.veterinaryClinic.entity.Customer;
 import com.patika.veterinaryClinic.entity.Doctor;
 import com.patika.veterinaryClinic.exception.AlreadyExistsException;
+import com.patika.veterinaryClinic.exception.NotFoundException;
 import com.patika.veterinaryClinic.exception.message.ErrorMessage;
 import com.patika.veterinaryClinic.repository.CustomerRepo;
 import com.patika.veterinaryClinic.service.CustomerService;
@@ -46,7 +47,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResponseDto update(Long id, CustomerRequestDto request) {
         Customer customer = customerRepo.findById(id)
-                .orElseThrow(() -> new AlreadyExistsException(ErrorMessage.NOT_FOUND_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND_EXCEPTION));
         if (customerRepo.existsByMail(request.getMail()) && !request.getMail().equals(customer.getMail())) {
             throw new AlreadyExistsException(String.format(ErrorMessage.MAIL_ALREADY_EXISTS_EXCEPTION, request.getMail()));
         }
@@ -61,14 +62,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResponseDto getById(Long id) {
         Customer customer = customerRepo.findById(id)
-                .orElseThrow(() -> new AlreadyExistsException(String.format(ErrorMessage.NOT_FOUND_EXCEPTION, String.valueOf(id))));
+                .orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.CUSTOMER_NOT_FOUND_EXCEPTION, String.valueOf(id))));
         return modelMapper.map(customer, CustomerResponseDto.class);
     }
 
     @Override
     public void delete(Long id) {
         Customer customer = customerRepo.findById(id)
-                .orElseThrow(() -> new AlreadyExistsException(ErrorMessage.NOT_FOUND_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND_EXCEPTION));
         customerRepo.delete(customer);
     }
 

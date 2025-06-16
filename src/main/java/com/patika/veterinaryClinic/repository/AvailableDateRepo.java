@@ -15,5 +15,7 @@ public interface AvailableDateRepo extends JpaRepository<AvailableDate, Long> {
     List<AvailableDate> findByDoctorId(Long doctorId);
 
     boolean existsByAvailableDateAndDoctorIdAndId(LocalDate date, Long doctorId, Long id); //Update için 'aynı tarih ve doktor var ancak gelen requeste değil' kontrolü.
+
+    boolean existsByDoctorIdAndAvailableDate(Long doctorId, LocalDate appointmentDay);
 }
 

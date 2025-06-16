@@ -6,6 +6,7 @@ import com.patika.veterinaryClinic.dto.response.DoctorListResponseDto;
 import com.patika.veterinaryClinic.entity.AvailableDate;
 import com.patika.veterinaryClinic.entity.Doctor;
 import com.patika.veterinaryClinic.exception.AlreadyExistsException;
+import com.patika.veterinaryClinic.exception.NotFoundException;
 import com.patika.veterinaryClinic.exception.message.ErrorMessage;
 import com.patika.veterinaryClinic.mapper.AvailableDateMapper;
 import com.patika.veterinaryClinic.repository.AvailableDateRepo;
@@ -42,7 +43,7 @@ public class AvailableDateImpl implements AvailableDateService {
     @Override
     public AvailableDateResponseDto update(Long id, AvailableDateRequestDto request) {
         AvailableDate updateAvailable = availableDateRepo.findById(id)
-                .orElseThrow(() -> new AlreadyExistsException(String.format(ErrorMessage.AVAILABLE_DATE_NOT_FOUND_EXCEPTION, String.valueOf(id))));
+                .orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.AVAILABLE_DATE_NOT_FOUND_EXCEPTION, String.valueOf(id))));
         boolean conflict = availableDateRepo.existsByAvailableDateAndDoctorIdAndId(request.getAvailableDate(), request.getDoctorId(), id);
         if (conflict) {
             throw new AlreadyExistsException(ErrorMessage.DOCTOR_AVAILABLE_DATE_ALREADY_EXISTS_EXCEPTION);
@@ -56,7 +57,7 @@ public class AvailableDateImpl implements AvailableDateService {
     @Override
     public List<AvailableDateResponseDto> getAllByDoctorId(Long doctorId) {
         if (!doctorRepo.existsById(doctorId)) {
-            throw new AlreadyExistsException(String.format(String.format(ErrorMessage.NOT_FOUND_EXCEPTION, String.valueOf(doctorId))));
+            throw new NotFoundException(String.format(String.format(ErrorMessage.DOCTOR_NOT_FOUND_EXCEPTION, String.valueOf(doctorId))));
         }
         return availableDateRepo.findByDoctorId(doctorId)
                 .stream()
@@ -67,14 +68,14 @@ public class AvailableDateImpl implements AvailableDateService {
     @Override
     public AvailableDateResponseDto getById(Long id) {
         AvailableDate availableDate = availableDateRepo.findById(id)
-                .orElseThrow(() -> new AlreadyExistsException(String.format(ErrorMessage.AVAILABLE_DATE_NOT_FOUND_EXCEPTION, String.valueOf(id))));
+                .orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.AVAILABLE_DATE_NOT_FOUND_EXCEPTION, String.valueOf(id))));
         return availableDateMapper.toDto(availableDate);
     }
 
     @Override
     public void delete(Long id) {
         if (!availableDateRepo.existsById(id)) {
-            throw new AlreadyExistsException(String.format(ErrorMessage.NOT_FOUND_EXCEPTION, String.valueOf(id)));
+            throw new NotFoundException(String.format(ErrorMessage.AVAILABLE_DATE_NOT_FOUND_EXCEPTION, String.valueOf(id)));
         }
         availableDateRepo.deleteById(id);
     }

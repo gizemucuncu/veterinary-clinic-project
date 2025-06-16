@@ -5,6 +5,7 @@ import com.patika.veterinaryClinic.dto.response.DoctorListResponseDto;
 import com.patika.veterinaryClinic.dto.response.DoctorResponseDto;
 import com.patika.veterinaryClinic.entity.Doctor;
 import com.patika.veterinaryClinic.exception.AlreadyExistsException;
+import com.patika.veterinaryClinic.exception.NotFoundException;
 import com.patika.veterinaryClinic.exception.message.ErrorMessage;
 import com.patika.veterinaryClinic.repository.DoctorRepo;
 import com.patika.veterinaryClinic.service.DoctorService;
@@ -47,7 +48,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Transactional
     public DoctorResponseDto update(Long id, DoctorRequestDto request) {
         Doctor doctor = doctorRepo.findById(id)
-                .orElseThrow(() -> new AlreadyExistsException(ErrorMessage.NOT_FOUND_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.DOCTOR_NOT_FOUND_EXCEPTION));
 
         if (doctorRepo.existsByMail(request.getMail()) && !doctor.getMail().equals(request.getMail())) {
             throw new AlreadyExistsException(String.format(ErrorMessage.MAIL_ALREADY_EXISTS_EXCEPTION, request.getMail()));
@@ -66,7 +67,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Transactional
     public DoctorResponseDto getById(Long id) {
         Doctor doctor = doctorRepo.findById(id)
-                .orElseThrow(() -> new AlreadyExistsException(String.format(ErrorMessage.NOT_FOUND_EXCEPTION, String.valueOf(id))));
+                .orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.DOCTOR_NOT_FOUND_EXCEPTION, String.valueOf(id))));
         return modelMapper.map(doctor, DoctorResponseDto.class);
     }
 
@@ -74,7 +75,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Transactional
     public void delete(Long id) {
         Doctor doctor = doctorRepo.findById(id)
-                .orElseThrow(() -> new AlreadyExistsException(ErrorMessage.NOT_FOUND_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.DOCTOR_NOT_FOUND_EXCEPTION));
         doctorRepo.delete(doctor);
     }
 
@@ -91,6 +92,6 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public Doctor getEntityById(Long id) {
         return doctorRepo.findById(id)
-                .orElseThrow(() -> new AlreadyExistsException(String.format(ErrorMessage.NOT_FOUND_EXCEPTION, String.valueOf(id))));
+                .orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.DOCTOR_NOT_FOUND_EXCEPTION, String.valueOf(id))));
     }
 }

@@ -5,6 +5,7 @@ import com.patika.veterinaryClinic.dto.response.VaccineResponseDto;
 import com.patika.veterinaryClinic.entity.Animal;
 import com.patika.veterinaryClinic.entity.Vaccine;
 import com.patika.veterinaryClinic.exception.AlreadyExistsException;
+import com.patika.veterinaryClinic.exception.NotFoundException;
 import com.patika.veterinaryClinic.exception.message.ErrorMessage;
 import com.patika.veterinaryClinic.mapper.VaccineMapper;
 import com.patika.veterinaryClinic.repository.AnimalRepo;
@@ -30,7 +31,7 @@ public class VaccineServiceImpl implements VaccineService {
     @Transactional
     public VaccineResponseDto save(VaccineRequestDto request) {
         Animal animal = animalRepo.findById(request.getAnimalId())
-                .orElseThrow(() -> new AlreadyExistsException(ErrorMessage.NOT_FOUND_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.ANIMAL_NOT_FOUND_EXCEPTION));
 
         boolean alreadyExist = vaccineRepo.existsConflictingVaccine(
                 request.getName(),
@@ -53,10 +54,10 @@ public class VaccineServiceImpl implements VaccineService {
     @Transactional
     public VaccineResponseDto update(Long id, VaccineRequestDto request) {
         Vaccine vaccine = vaccineRepo.findById(id)
-                .orElseThrow(() -> new AlreadyExistsException(ErrorMessage.NOT_FOUND_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.VACCINE_NOT_FOUND_EXCEPTION));
 
         Animal animal = animalRepo.findById(request.getAnimalId())
-                .orElseThrow(() -> new AlreadyExistsException(ErrorMessage.NOT_FOUND_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.ANIMAL_NOT_FOUND_EXCEPTION));
         Vaccine update = vaccineMapper.toEntity(request, animal);
         update.setId(id);
         Vaccine save = vaccineRepo.save(update);
