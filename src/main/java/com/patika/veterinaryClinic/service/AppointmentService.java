@@ -2,6 +2,7 @@ package com.patika.veterinaryClinic.service;
 
 import com.patika.veterinaryClinic.dto.request.AppointmentRequestDto;
 import com.patika.veterinaryClinic.dto.response.AppointmentResponseDto;
+import com.patika.veterinaryClinic.dto.response.DoctorListResponseDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +13,8 @@ public interface AppointmentService {
     AppointmentResponseDto update(Long id, AppointmentRequestDto request);
 
     void delete(Long id);
+
+    List<AppointmentResponseDto> getAll();
 
     List<AppointmentResponseDto> getByDoctorIdAndDateRange(Long doctorId, LocalDateTime start, LocalDateTime end);
 

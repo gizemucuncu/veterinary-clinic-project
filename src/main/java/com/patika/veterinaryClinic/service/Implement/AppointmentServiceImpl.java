@@ -3,6 +3,7 @@ package com.patika.veterinaryClinic.service.Implement;
 import com.patika.veterinaryClinic.dto.request.AppointmentRequestDto;
 import com.patika.veterinaryClinic.dto.response.AppointmentResponseDto;
 import com.patika.veterinaryClinic.dto.response.AvailableDateResponseDto;
+import com.patika.veterinaryClinic.dto.response.DoctorListResponseDto;
 import com.patika.veterinaryClinic.entity.Animal;
 import com.patika.veterinaryClinic.entity.Appointment;
 import com.patika.veterinaryClinic.entity.AvailableDate;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -113,6 +115,14 @@ public class AppointmentServiceImpl implements AppointmentService {
         Appointment appointment = appointmentRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.APPOINTMENT_NOT_FOUND_EXCEPTION));
         appointmentRepo.delete(appointment);
+    }
+
+    @Override
+    public List<AppointmentResponseDto> getAll() {
+        return appointmentRepo.findAll()
+                .stream()
+                .map(appointmentMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override

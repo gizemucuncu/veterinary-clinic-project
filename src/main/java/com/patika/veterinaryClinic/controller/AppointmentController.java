@@ -39,20 +39,25 @@ public class AppointmentController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/get-by-doctor")
+    @GetMapping("/list")
+    public ResponseEntity<List<AppointmentResponseDto>> getAll() {
+        return ResponseEntity.ok(appointmentService.getAll());
+    }
+
+    @GetMapping("/doctor")
     public ResponseEntity<List<AppointmentResponseDto>> getByDoctorIdAndDateRange(
-            @Valid @RequestBody Long doctorId,
-            @Valid @RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-            @Valid @RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
+            @Valid @RequestParam Long doctorId,
+            @Valid @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+            @Valid @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
         return ResponseEntity.ok(appointmentService.getByDoctorIdAndDateRange(doctorId, start, end));
 
     }
 
-    @GetMapping("/get-by-animal")
+    @GetMapping("/animal")
     public ResponseEntity<List<AppointmentResponseDto>> getByAnimalIdAndDateRange(
-            @RequestParam Long animalId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
+            @Valid @RequestParam Long animalId,
+            @Valid @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+            @Valid @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
 
         return ResponseEntity.ok(appointmentService.getByAnimalIdAndDateRange(animalId, start, end));
     }
