@@ -7,6 +7,7 @@ import com.patika.veterinaryClinic.entity.Appointment;
 import com.patika.veterinaryClinic.entity.Doctor;
 import com.patika.veterinaryClinic.exception.AlreadyExistsException;
 import com.patika.veterinaryClinic.exception.BadRequestException;
+import com.patika.veterinaryClinic.exception.InvalidDateRangeException;
 import com.patika.veterinaryClinic.exception.NotFoundException;
 import com.patika.veterinaryClinic.exception.message.ErrorMessage;
 import com.patika.veterinaryClinic.mapper.AppointmentMapper;
@@ -124,6 +125,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<AppointmentResponseDto> getByDoctorIdAndDateRange(Long doctorId, LocalDateTime start, LocalDateTime end) {
+        if (!start.isBefore(end)) {
+            throw new InvalidDateRangeException(ErrorMessage.INVALID_START_END_DATE_RANGE_EXCEPTION);
+        }
         return appointmentRepo
                 .findByDoctorIdAndAppointmentDateBetween(doctorId, start, end)
                 .stream()
@@ -133,6 +137,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<AppointmentResponseDto> getByAnimalIdAndDateRange(Long animalId, LocalDateTime start, LocalDateTime end) {
+        if (!start.isBefore(end)) {
+            throw new InvalidDateRangeException(ErrorMessage.INVALID_START_END_DATE_RANGE_EXCEPTION);
+        }
         return appointmentRepo
                 .findByAnimalIdAndAppointmentDateBetween(animalId, start, end)
                 .stream()

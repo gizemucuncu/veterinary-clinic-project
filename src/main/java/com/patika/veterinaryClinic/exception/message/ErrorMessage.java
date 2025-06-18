@@ -24,6 +24,7 @@ public class ErrorMessage {
     public final static String APPOINTMENT_ALREADY_EXIST_EXCEPTION = "Seçilen tarihte başka bir randevu kaydı bulunmaktadır, başka tarih seçiniz...";
 
     public final static String INVALID_TIME_RANGE_EXCEPTION = "Geçersiz saat seçimi. Lütfen sadece saat başı (örneğin 13:00, 14:00) bir saat seçin.";
+    public final static String INVALID_START_END_DATE_RANGE_EXCEPTION = "Geçersiz saat seçimi. 'end' date 'start' date bilgisinden büyük olmalıdır..";
 
     // TODO: Buradaki mesajları özelleştir..
 }
