@@ -11,4 +11,5 @@ public interface AnimalRepo extends JpaRepository<Animal, Long> {
     List<Animal> findByNameContainingIgnoreCase(String name);
 
     List<Animal> findByCustomerId(Long customerId);
+
 }

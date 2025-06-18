@@ -3,10 +3,7 @@ package com.patika.veterinaryClinic.service.Implement;
 import com.patika.veterinaryClinic.dto.request.CustomerRequestDto;
 import com.patika.veterinaryClinic.dto.response.CustomerListResponseDto;
 import com.patika.veterinaryClinic.dto.response.CustomerResponseDto;
-import com.patika.veterinaryClinic.dto.response.DoctorListResponseDto;
-import com.patika.veterinaryClinic.dto.response.DoctorResponseDto;
 import com.patika.veterinaryClinic.entity.Customer;
-import com.patika.veterinaryClinic.entity.Doctor;
 import com.patika.veterinaryClinic.exception.AlreadyExistsException;
 import com.patika.veterinaryClinic.exception.NotFoundException;
 import com.patika.veterinaryClinic.exception.message.ErrorMessage;
@@ -85,11 +82,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerResponseDto> searchByName(String name) {
-        // TODO: Postmande Kayıtlı olmayan bir isim aratıldığında [] ve 200 OK dönüyor güzel bir mesaj yazdır. Kayıt bulunamadı falan
-        return customerRepo.findByNameContainingIgnoreCase(name)
+        List<CustomerResponseDto> customerResponseDto = customerRepo.findByNameContainingIgnoreCase(name)
                 .stream()
                 .map(customer -> modelMapper.map(customer, CustomerResponseDto.class))
                 .collect(Collectors.toList());
+        if (customerResponseDto.isEmpty()) {
+            throw new NotFoundException(ErrorMessage.CUSTOMER_NAME_NOT_FOUND_EXCEPTION);
+        }
+        return customerResponseDto;
     }
 
 }

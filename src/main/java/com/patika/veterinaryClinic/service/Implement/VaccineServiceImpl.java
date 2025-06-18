@@ -28,7 +28,6 @@ public class VaccineServiceImpl implements VaccineService {
     private final VaccineMapper vaccineMapper;
 
     @Override
-    @Transactional
     public VaccineResponseDto save(VaccineRequestDto request) {
         Animal animal = animalRepo.findById(request.getAnimalId())
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.ANIMAL_NOT_FOUND_EXCEPTION));
@@ -51,7 +50,6 @@ public class VaccineServiceImpl implements VaccineService {
     }
 
     @Override
-    @Transactional
     public VaccineResponseDto update(Long id, VaccineRequestDto request) {
         Vaccine vaccine = vaccineRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.VACCINE_NOT_FOUND_EXCEPTION));
@@ -66,26 +64,23 @@ public class VaccineServiceImpl implements VaccineService {
     }
 
     @Override
-    @Transactional
     public void delete(Long id) {
         if (!vaccineRepo.existsById(id)) {
-            throw new AlreadyExistsException(String.format(ErrorMessage.VACCINE_NOT_FOUND_EXCEPTION, String.valueOf(id)));
+            throw new NotFoundException(String.format(ErrorMessage.VACCINE_NOT_FOUND_EXCEPTION, String.valueOf(id)));
         }
         vaccineRepo.deleteById(id);
     }
 
     @Override
-    @Transactional
     public VaccineResponseDto getById(Long id) {
         return vaccineMapper.toDto(
                 vaccineRepo.findById(id)
                         .orElseThrow(() ->
-                                new AlreadyExistsException(String.format(ErrorMessage.VACCINE_NOT_FOUND_EXCEPTION, String.valueOf(id))
+                                new NotFoundException(String.format(ErrorMessage.VACCINE_NOT_FOUND_EXCEPTION, String.valueOf(id))
                                 )));
     }
 
     @Override
-    @Transactional
     public List<VaccineResponseDto> getAll() {
         return vaccineRepo.findAll()
                 .stream()
@@ -94,7 +89,6 @@ public class VaccineServiceImpl implements VaccineService {
     }
 
     @Override
-    @Transactional
     public List<VaccineResponseDto> getByProtectionDateRange(LocalDate startDate, LocalDate endDate) {
         return vaccineRepo.findByProtectionFinishDateBetween(startDate, endDate)
                 .stream()
@@ -103,7 +97,6 @@ public class VaccineServiceImpl implements VaccineService {
     }
 
     @Override
-    @Transactional
     public List<VaccineResponseDto> getAllByAnimalId(Long animalId) {
         List<VaccineResponseDto> animalVaccine = vaccineRepo.findAll()
                 .stream()
@@ -111,7 +104,7 @@ public class VaccineServiceImpl implements VaccineService {
                 .map(vaccineMapper::toDto)
                 .collect(Collectors.toList());
         if (animalVaccine.isEmpty()) {
-            throw new AlreadyExistsException(String.format(ErrorMessage.ANIMAL_VACCINE_NOT_FOUND_EXCEPTION, String.valueOf(animalId)));
+            throw new NotFoundException(String.format(ErrorMessage.ANIMAL_VACCINE_NOT_FOUND_EXCEPTION, String.valueOf(animalId)));
         } else {
             return animalVaccine;
         }

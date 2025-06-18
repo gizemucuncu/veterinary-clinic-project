@@ -24,13 +24,13 @@ public class DoctorController {
     }
 
     @PostMapping
-    public ResponseEntity<DoctorResponseDto> saveDoctor(@Valid @RequestBody DoctorRequestDto requestDto) {
+    public ResponseEntity<DoctorResponseDto> create(@Valid @RequestBody DoctorRequestDto requestDto) {
         DoctorResponseDto saved = doctorService.save(requestDto);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DoctorResponseDto> updateDoctor(@PathVariable Long id,
+    public ResponseEntity<DoctorResponseDto> update(@PathVariable Long id,
                                                           @Valid @RequestBody DoctorRequestDto requestDto) {
         DoctorResponseDto updated = doctorService.update(id, requestDto);
         return ResponseEntity.ok(updated);
@@ -42,14 +42,14 @@ public class DoctorController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/doctor-list")
+    @GetMapping("/list")
     public ResponseEntity<List<DoctorListResponseDto>> getAllDoctors() {
         return ResponseEntity.ok(doctorService.getAll());
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<VeterinaryResponse> deleteDoctor(@PathVariable Long id) {
+    public ResponseEntity<VeterinaryResponse> delete(@PathVariable Long id) {
         doctorService.delete(id);
 
         VeterinaryResponse response = new VeterinaryResponse();

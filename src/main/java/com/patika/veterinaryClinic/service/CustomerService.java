@@ -17,5 +17,6 @@ public interface CustomerService {
     void delete(Long id);
 
     List<CustomerListResponseDto> getAll();
+
     List<CustomerResponseDto> searchByName(String name);
 }

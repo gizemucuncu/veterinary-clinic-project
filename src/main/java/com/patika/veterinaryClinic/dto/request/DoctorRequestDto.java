@@ -21,8 +21,10 @@ public class DoctorRequestDto {
     @Email(message = "Geçerli bir email giriniz.")
     private String mail;
 
+    @NotBlank(message = "Adres bilgisi boş olamaz.")
     private String address;
 
+    @NotBlank(message = "Şehir bilgisi boş olamaz.")
     private String city;
 
 }

@@ -2,11 +2,8 @@ package com.patika.veterinaryClinic.service.Implement;
 
 import com.patika.veterinaryClinic.dto.request.AppointmentRequestDto;
 import com.patika.veterinaryClinic.dto.response.AppointmentResponseDto;
-import com.patika.veterinaryClinic.dto.response.AvailableDateResponseDto;
-import com.patika.veterinaryClinic.dto.response.DoctorListResponseDto;
 import com.patika.veterinaryClinic.entity.Animal;
 import com.patika.veterinaryClinic.entity.Appointment;
-import com.patika.veterinaryClinic.entity.AvailableDate;
 import com.patika.veterinaryClinic.entity.Doctor;
 import com.patika.veterinaryClinic.exception.AlreadyExistsException;
 import com.patika.veterinaryClinic.exception.BadRequestException;
@@ -15,11 +12,9 @@ import com.patika.veterinaryClinic.exception.message.ErrorMessage;
 import com.patika.veterinaryClinic.mapper.AppointmentMapper;
 import com.patika.veterinaryClinic.repository.AppointmentRepo;
 import com.patika.veterinaryClinic.repository.AvailableDateRepo;
-import com.patika.veterinaryClinic.repository.DoctorRepo;
 import com.patika.veterinaryClinic.service.AnimalService;
 import com.patika.veterinaryClinic.service.AppointmentService;
 import com.patika.veterinaryClinic.service.DoctorService;
-import com.sun.source.doctree.DocCommentTree;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -78,6 +73,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         Long animalId = request.getAnimalId();
         LocalDate appointmentDay = request.getAppointmentDate().toLocalDate();
 
+        //Randevu kaydı var mı yok mu kontrol edilir
         Appointment appointment = appointmentRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.APPOINTMENT_NOT_FOUND_EXCEPTION, String.valueOf(id))));
 
@@ -99,6 +95,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         boolean conflict = appointmentRepo.existsByDoctorIdAndAppointmentDate(doctorId, request.getAppointmentDate())
                 && (!appointment.getAppointmentDate().equals(request.getAppointmentDate()));
 
+        //Başka randevu varsa hata fırlatılır
         if (conflict) {
             throw new AlreadyExistsException(ErrorMessage.APPOINTMENT_ALREADY_EXIST_EXCEPTION);
         }

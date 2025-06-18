@@ -31,7 +31,7 @@ public class Animal {
     @Column(name = "gender", nullable = false)
     private String gender;
 
-    @Column(name = "colour", nullable = false)
+    @Column(name = "colour")
     private String colour;
 
     @Column(name = "date_of_birth", nullable = false)

@@ -2,7 +2,6 @@ package com.patika.veterinaryClinic.controller;
 
 
 import com.patika.veterinaryClinic.dto.request.CustomerRequestDto;
-import com.patika.veterinaryClinic.dto.request.DoctorRequestDto;
 import com.patika.veterinaryClinic.dto.response.*;
 import com.patika.veterinaryClinic.service.CustomerService;
 import jakarta.validation.Valid;
@@ -20,13 +19,13 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<CustomerResponseDto> saveCustomer(@Valid @RequestBody CustomerRequestDto request) {
+    public ResponseEntity<CustomerResponseDto> create(@Valid @RequestBody CustomerRequestDto request) {
         return new ResponseEntity<>(customerService.save(request), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerResponseDto> updateCustomer(@PathVariable Long id,
-                                                              @Valid @RequestBody CustomerRequestDto request) {
+    public ResponseEntity<CustomerResponseDto> update(@PathVariable Long id,
+                                                      @Valid @RequestBody CustomerRequestDto request) {
         CustomerResponseDto updated = customerService.update(id, request);
         return ResponseEntity.ok(updated);
     }
@@ -37,20 +36,19 @@ public class CustomerController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/customer-list")
+    @GetMapping("/list")
     public ResponseEntity<List<CustomerListResponseDto>> getAllCustomers() {
         return ResponseEntity.ok(customerService.getAll());
     }
 
     @GetMapping("/search")
-    // TODO: Postmande Kayıtlı olmayan bir isim aratıldığında [] ve 200 OK dönüyor güzel bir mesaj yazdır. Kayıt bulunamadı falan
-    public ResponseEntity<List<CustomerResponseDto>> filterByName(@RequestParam String name) {
+    public ResponseEntity<List<CustomerResponseDto>> filterByName(@Valid @RequestParam String name) {
         return ResponseEntity.ok(customerService.searchByName(name));
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<VeterinaryResponse> deleteCustomer(@PathVariable Long id) {
+    public ResponseEntity<VeterinaryResponse> delete(@PathVariable Long id) {
         customerService.delete(id);
 
         VeterinaryResponse response = new VeterinaryResponse();

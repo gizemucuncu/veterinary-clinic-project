@@ -2,7 +2,6 @@ package com.patika.veterinaryClinic.service;
 
 import com.patika.veterinaryClinic.dto.request.AppointmentRequestDto;
 import com.patika.veterinaryClinic.dto.response.AppointmentResponseDto;
-import com.patika.veterinaryClinic.dto.response.DoctorListResponseDto;
 
 import java.time.LocalDateTime;
 import java.util.List;

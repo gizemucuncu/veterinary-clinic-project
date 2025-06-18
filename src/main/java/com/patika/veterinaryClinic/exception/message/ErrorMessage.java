@@ -5,10 +5,12 @@ public class ErrorMessage {
     public final static String PHONE_ALREADY_EXISTS_EXCEPTION = "Girilen telefon numarası siştemde kayıtlı";
 
     //NOT_FOUND
-    public final static String NOT_FOUND_EXCEPTION = "%s id'li kayıt bulunamadı";
     public final static String ANIMAL_NOT_FOUND_EXCEPTION = "%s id'li hayvan kaydı bulunamadı";
-    public final static String DOCTOR_NOT_FOUND_EXCEPTION = "%s id'li doktor kayıt bulunamadı";
-    public final static String CUSTOMER_NOT_FOUND_EXCEPTION = "%s id'li müşteri kayıt bulunamadı";
+    public final static String DOCTOR_NOT_FOUND_EXCEPTION = "%s id'li doktor kaydı bulunamadı";
+    public final static String CUSTOMER_NOT_FOUND_EXCEPTION = "%s id'li müşteri kaydı bulunamadı";
+    public final static String CUSTOMER_NAME_NOT_FOUND_EXCEPTION = "Girilen isme ait müşteri kaydı bulunamadı";
+    public final static String ANIMAL_NAME_NOT_FOUND_EXCEPTION = "Girilen isme ait hayvan kaydı bulunamadı";
+    public final static String ANIMAL_NOT_FOUND_WITH_CUSTOMER_ID_EXCEPTION = "%s id'li müşteriye ait hayvan kaydı bulunamadı";
     public final static String VACCINE_NOT_FOUND_EXCEPTION = "Sistemde %s id'li aşı kaydı bulunamadı!";
     public final static String ANIMAL_VACCINE_NOT_FOUND_EXCEPTION = "%s id ye sahip hayvan için aşı kaydı bulunamadı!";
     public final static String APPOINTMENT_NOT_FOUND_EXCEPTION = "%s id'li randevu bulunamadı...";

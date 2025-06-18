@@ -2,9 +2,7 @@ package com.patika.veterinaryClinic.service.Implement;
 
 import com.patika.veterinaryClinic.dto.request.AvailableDateRequestDto;
 import com.patika.veterinaryClinic.dto.response.AvailableDateResponseDto;
-import com.patika.veterinaryClinic.dto.response.DoctorListResponseDto;
 import com.patika.veterinaryClinic.entity.AvailableDate;
-import com.patika.veterinaryClinic.entity.Doctor;
 import com.patika.veterinaryClinic.exception.AlreadyExistsException;
 import com.patika.veterinaryClinic.exception.NotFoundException;
 import com.patika.veterinaryClinic.exception.message.ErrorMessage;
@@ -15,7 +13,6 @@ import com.patika.veterinaryClinic.service.AvailableDateService;
 import com.patika.veterinaryClinic.service.DoctorService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

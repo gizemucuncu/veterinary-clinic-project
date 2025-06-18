@@ -46,7 +46,7 @@ public class VaccineController {
         return ResponseEntity.ok(vaccineService.getById(id));
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<VaccineResponseDto>> getAll() {
         return ResponseEntity.ok(vaccineService.getAll());
     }
@@ -57,8 +57,8 @@ public class VaccineController {
     }
 
     @GetMapping("/protection")
-    public ResponseEntity<List<VaccineResponseDto>> getByProtectionDateRange(@RequestParam LocalDate startDate,
-                                                                             @RequestParam LocalDate endDate) {
+    public ResponseEntity<List<VaccineResponseDto>> getByProtectionDateRange(@Valid @RequestParam LocalDate startDate,
+                                                                             @Valid @RequestParam LocalDate endDate) {
         return ResponseEntity.ok(vaccineService.getByProtectionDateRange(startDate, endDate));
     }
 }
