@@ -3,7 +3,7 @@ package com.patika.veterinaryClinic.controller;
 import com.patika.veterinaryClinic.dto.request.AvailableDateRequestDto;
 import com.patika.veterinaryClinic.dto.response.AvailableDateResponseDto;
 import com.patika.veterinaryClinic.dto.response.VeterinaryResponse;
-import com.patika.veterinaryClinic.service.AvailableDateService;
+import com.patika.veterinaryClinic.service.Interface.AvailableDateService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

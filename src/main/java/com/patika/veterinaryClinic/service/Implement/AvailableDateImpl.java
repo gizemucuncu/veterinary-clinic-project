@@ -9,8 +9,8 @@ import com.patika.veterinaryClinic.exception.message.ErrorMessage;
 import com.patika.veterinaryClinic.mapper.AvailableDateMapper;
 import com.patika.veterinaryClinic.repository.AvailableDateRepo;
 import com.patika.veterinaryClinic.repository.DoctorRepo;
-import com.patika.veterinaryClinic.service.AvailableDateService;
-import com.patika.veterinaryClinic.service.DoctorService;
+import com.patika.veterinaryClinic.service.Interface.AvailableDateService;
+import com.patika.veterinaryClinic.service.Interface.DoctorService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +30,7 @@ public class AvailableDateImpl implements AvailableDateService {
 
     @Override
     public AvailableDateResponseDto save(AvailableDateRequestDto request) {
+        //Doktor için kaydedilmek istenen güün kaydı mevcut mu kontrol edilir
         if (availableDateRepo.existsByAvailableDateAndDoctorId(request.getAvailableDate(), request.getDoctorId())) {
             throw new AlreadyExistsException(String.format(ErrorMessage.AVAILABLE_DATE_ALREADY_EXISTS_EXCEPTION, request.getDoctorId()));
         }
@@ -39,8 +40,10 @@ public class AvailableDateImpl implements AvailableDateService {
 
     @Override
     public AvailableDateResponseDto update(Long id, AvailableDateRequestDto request) {
+        //Updatelenmek istenen AvailableDate kaydı mevcut mu
         AvailableDate updateAvailable = availableDateRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.AVAILABLE_DATE_NOT_FOUND_EXCEPTION, String.valueOf(id))));
+        //Updatelenmek istenen AvailableDate kaydı Doktor için zaten var mı
         boolean conflict = availableDateRepo.existsByAvailableDateAndDoctorIdAndId(request.getAvailableDate(), request.getDoctorId(), id);
         if (conflict) {
             throw new AlreadyExistsException(ErrorMessage.DOCTOR_AVAILABLE_DATE_ALREADY_EXISTS_EXCEPTION);
@@ -53,6 +56,7 @@ public class AvailableDateImpl implements AvailableDateService {
 
     @Override
     public List<AvailableDateResponseDto> getAllByDoctorId(Long doctorId) {
+        //Doktor kaydı sistemde mevcut mu
         if (!doctorRepo.existsById(doctorId)) {
             throw new NotFoundException(String.format(String.format(ErrorMessage.DOCTOR_NOT_FOUND_EXCEPTION, String.valueOf(doctorId))));
         }

@@ -10,7 +10,7 @@ import com.patika.veterinaryClinic.exception.message.ErrorMessage;
 import com.patika.veterinaryClinic.mapper.VaccineMapper;
 import com.patika.veterinaryClinic.repository.AnimalRepo;
 import com.patika.veterinaryClinic.repository.VaccineRepo;
-import com.patika.veterinaryClinic.service.VaccineService;
+import com.patika.veterinaryClinic.service.Interface.VaccineService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,9 +29,11 @@ public class VaccineServiceImpl implements VaccineService {
 
     @Override
     public VaccineResponseDto save(VaccineRequestDto request) {
+        //Aşı bilgisi girilmek istenen hayvan sistemde mevcut mu?
         Animal animal = animalRepo.findById(request.getAnimalId())
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.ANIMAL_NOT_FOUND_EXCEPTION));
 
+        //Bu aşı daha önce bu hayvana yapılmış ve korum atrihleri içerisinde mi ?
         boolean alreadyExist = vaccineRepo.existsConflictingVaccine(
                 request.getName(),
                 request.getCode(),
@@ -90,6 +92,7 @@ public class VaccineServiceImpl implements VaccineService {
 
     @Override
     public List<VaccineResponseDto> getByProtectionDateRange(LocalDate startDate, LocalDate endDate) {
+        //Bu fonskiyon Aşının koruma tarihi aralığı için yazıldı
         return vaccineRepo.findByProtectionFinishDateBetween(startDate, endDate)
                 .stream()
                 .map(vaccineMapper::toDto)

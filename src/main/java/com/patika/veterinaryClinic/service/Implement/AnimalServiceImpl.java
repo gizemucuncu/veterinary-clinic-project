@@ -9,7 +9,7 @@ import com.patika.veterinaryClinic.exception.message.ErrorMessage;
 import com.patika.veterinaryClinic.mapper.AnimalMapper;
 import com.patika.veterinaryClinic.repository.AnimalRepo;
 import com.patika.veterinaryClinic.repository.CustomerRepo;
-import com.patika.veterinaryClinic.service.AnimalService;
+import com.patika.veterinaryClinic.service.Interface.AnimalService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,13 +40,13 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     public AnimalResponseDto update(Long id, AnimalRequestDto request) {
         Animal animal = animalRepo.findById(id)
-                .orElseThrow(() -> new NotFoundException(ErrorMessage.ANIMAL_NOT_FOUND_EXCEPTION));
-
+                .orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.ANIMAL_NOT_FOUND_EXCEPTION, String.valueOf(id))));
+        // Güncellenmek istenen hayvan için ilgili Customer kayıtlı kontrol edilir
         Customer customer = customerRepo.findById(request.getCustomerId())
-                .orElseThrow(() -> new NotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.CUSTOMER_NOT_FOUND_EXCEPTION, String.valueOf(request.getCustomerId()))));
 
         Animal updatedAnimal = animalMapper.toEntity(request, customer);
-        updatedAnimal.setId(id); // güncellenecek ID'yi set et
+        updatedAnimal.setId(id); // güncellenecek ID set edilir
 
         Animal saved = animalRepo.save(updatedAnimal);
         return animalMapper.toDto(saved);
@@ -62,7 +62,7 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     public AnimalResponseDto getById(Long id) {
         Animal animal = animalRepo.findById(id)
-                .orElseThrow(() -> new NotFoundException(ErrorMessage.ANIMAL_NOT_FOUND_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.ANIMAL_NOT_FOUND_EXCEPTION, String.valueOf(id))));
         return animalMapper.toDto(animal);
     }
 
@@ -76,6 +76,7 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     public List<AnimalResponseDto> getByCustomerId(Long customerId) {
+        //Customer ID'ye göre hayvanlar filtrelenir.
         List<AnimalResponseDto> animalByCustomer = animalRepo.findAll()
                 .stream()
                 .filter(animal -> animal.getCustomer().getId().equals(customerId))
@@ -91,6 +92,7 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     public List<AnimalResponseDto> searchByName(String name) {
+        //İsmine göre hayvanlar filtrelenir.
         List<AnimalResponseDto> animalByName = animalRepo.findByNameContainingIgnoreCase(name)
                 .stream()
                 .map(animalMapper::toDto)

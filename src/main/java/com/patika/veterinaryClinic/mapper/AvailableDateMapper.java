@@ -3,7 +3,7 @@ package com.patika.veterinaryClinic.mapper;
 import com.patika.veterinaryClinic.dto.request.AvailableDateRequestDto;
 import com.patika.veterinaryClinic.dto.response.AvailableDateResponseDto;
 import com.patika.veterinaryClinic.entity.AvailableDate;
-import com.patika.veterinaryClinic.service.DoctorService;
+import com.patika.veterinaryClinic.service.Interface.DoctorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

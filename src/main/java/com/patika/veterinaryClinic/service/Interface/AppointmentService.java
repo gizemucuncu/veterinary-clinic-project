@@ -1,4 +1,4 @@
-package com.patika.veterinaryClinic.service;
+package com.patika.veterinaryClinic.service.Interface;
 
 import com.patika.veterinaryClinic.dto.request.AppointmentRequestDto;
 import com.patika.veterinaryClinic.dto.response.AppointmentResponseDto;

@@ -13,9 +13,9 @@ import com.patika.veterinaryClinic.exception.message.ErrorMessage;
 import com.patika.veterinaryClinic.mapper.AppointmentMapper;
 import com.patika.veterinaryClinic.repository.AppointmentRepo;
 import com.patika.veterinaryClinic.repository.AvailableDateRepo;
-import com.patika.veterinaryClinic.service.AnimalService;
-import com.patika.veterinaryClinic.service.AppointmentService;
-import com.patika.veterinaryClinic.service.DoctorService;
+import com.patika.veterinaryClinic.service.Interface.AnimalService;
+import com.patika.veterinaryClinic.service.Interface.AppointmentService;
+import com.patika.veterinaryClinic.service.Interface.DoctorService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -111,7 +111,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public void delete(Long id) {
         Appointment appointment = appointmentRepo.findById(id)
-                .orElseThrow(() -> new NotFoundException(ErrorMessage.APPOINTMENT_NOT_FOUND_EXCEPTION));
+                .orElseThrow(() -> new NotFoundException(String.format(ErrorMessage.APPOINTMENT_NOT_FOUND_EXCEPTION, String.valueOf(id))));
         appointmentRepo.delete(appointment);
     }
 
@@ -125,9 +125,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<AppointmentResponseDto> getByDoctorIdAndDateRange(Long doctorId, LocalDateTime start, LocalDateTime end) {
+        //Start bilgisinin End bilgisinden önce olmasını kontrol edilir
         if (!start.isBefore(end)) {
             throw new InvalidDateRangeException(ErrorMessage.INVALID_START_END_DATE_RANGE_EXCEPTION);
         }
+        //Girilen Doctor ID ve Tarih aralığına göre Randevu Listelenir
         return appointmentRepo
                 .findByDoctorIdAndAppointmentDateBetween(doctorId, start, end)
                 .stream()
@@ -137,9 +139,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<AppointmentResponseDto> getByAnimalIdAndDateRange(Long animalId, LocalDateTime start, LocalDateTime end) {
+        //Start bilgisinin End bilgisinden önce olmasını kontrol edilir
         if (!start.isBefore(end)) {
             throw new InvalidDateRangeException(ErrorMessage.INVALID_START_END_DATE_RANGE_EXCEPTION);
         }
+        //Girilen Animal ID ve Tarih aralığına göre Randevu Listelenir
         return appointmentRepo
                 .findByAnimalIdAndAppointmentDateBetween(animalId, start, end)
                 .stream()

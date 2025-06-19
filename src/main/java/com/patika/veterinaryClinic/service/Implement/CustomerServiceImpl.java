@@ -8,7 +8,7 @@ import com.patika.veterinaryClinic.exception.AlreadyExistsException;
 import com.patika.veterinaryClinic.exception.NotFoundException;
 import com.patika.veterinaryClinic.exception.message.ErrorMessage;
 import com.patika.veterinaryClinic.repository.CustomerRepo;
-import com.patika.veterinaryClinic.service.CustomerService;
+import com.patika.veterinaryClinic.service.Interface.CustomerService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -27,6 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerResponseDto save(CustomerRequestDto request) {
+        //Kaydedilmek istenen müşterinin mail ve phone bilgisi sistemde mevcut mu
         if (customerRepo.existsByMail(request.getMail())) {
             throw new AlreadyExistsException(String.format(ErrorMessage.MAIL_ALREADY_EXISTS_EXCEPTION, request.getMail()));
         }
@@ -43,6 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerResponseDto update(Long id, CustomerRequestDto request) {
+        //sistemde ilgili customer var mı? mail ve phone bilgileri mevctu mu ?
         Customer customer = customerRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.CUSTOMER_NOT_FOUND_EXCEPTION));
         if (customerRepo.existsByMail(request.getMail()) && !request.getMail().equals(customer.getMail())) {
@@ -82,6 +84,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerResponseDto> searchByName(String name) {
+        //İsme göre Customer filtreleme
         List<CustomerResponseDto> customerResponseDto = customerRepo.findByNameContainingIgnoreCase(name)
                 .stream()
                 .map(customer -> modelMapper.map(customer, CustomerResponseDto.class))

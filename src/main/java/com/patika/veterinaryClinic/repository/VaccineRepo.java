@@ -11,8 +11,6 @@ import java.util.List;
 
 @Repository
 public interface VaccineRepo extends JpaRepository<Vaccine, Long> {
-    //boolean existsByNameAndCodeAndAnimalIdAndProtectionFinishDateAfter(String name, String code, Long animalId, LocalDate date);
-
     List<Vaccine> findByProtectionFinishDateBetween(LocalDate startDate, LocalDate endDate);
 
     @Query("""

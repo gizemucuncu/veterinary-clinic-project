@@ -2,13 +2,11 @@ package com.patika.veterinaryClinic.mapper;
 
 import com.patika.veterinaryClinic.dto.request.AppointmentRequestDto;
 import com.patika.veterinaryClinic.dto.response.AppointmentResponseDto;
-import com.patika.veterinaryClinic.entity.Animal;
 import com.patika.veterinaryClinic.entity.Appointment;
-import com.patika.veterinaryClinic.service.AnimalService;
-import com.patika.veterinaryClinic.service.DoctorService;
+import com.patika.veterinaryClinic.service.Interface.AnimalService;
+import com.patika.veterinaryClinic.service.Interface.DoctorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Component
 @RequiredArgsConstructor

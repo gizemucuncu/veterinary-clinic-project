@@ -2,8 +2,8 @@ package com.patika.veterinaryClinic.controller;
 
 import com.patika.veterinaryClinic.dto.request.AppointmentRequestDto;
 import com.patika.veterinaryClinic.dto.response.AppointmentResponseDto;
-import com.patika.veterinaryClinic.entity.Appointment;
-import com.patika.veterinaryClinic.service.AppointmentService;
+import com.patika.veterinaryClinic.dto.response.VeterinaryResponse;
+import com.patika.veterinaryClinic.service.Interface.AppointmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,9 +34,13 @@ public class AppointmentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public ResponseEntity<VeterinaryResponse> delete(@PathVariable Long id) {
         appointmentService.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        VeterinaryResponse response = new VeterinaryResponse();
+        response.setMessage(id + " numaralı id'ye sahip 'randevu tarihi' kaydı başarıyla silindi.");
+        response.setSuccess(true);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/list")

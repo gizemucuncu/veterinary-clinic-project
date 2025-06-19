@@ -2,7 +2,7 @@ package com.patika.veterinaryClinic.exception.message;
 
 public class ErrorMessage {
     public final static String MAIL_ALREADY_EXISTS_EXCEPTION = "Girilen mail adresi sistemde kayıtlı";
-    public final static String PHONE_ALREADY_EXISTS_EXCEPTION = "Girilen telefon numarası siştemde kayıtlı";
+    public final static String PHONE_ALREADY_EXISTS_EXCEPTION = "Girilen telefon numarası sistemde kayıtlı";
 
     //NOT_FOUND
     public final static String ANIMAL_NOT_FOUND_EXCEPTION = "%s id'li hayvan kaydı bulunamadı";

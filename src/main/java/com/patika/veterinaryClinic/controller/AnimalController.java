@@ -3,7 +3,7 @@ package com.patika.veterinaryClinic.controller;
 import com.patika.veterinaryClinic.dto.request.AnimalRequestDto;
 import com.patika.veterinaryClinic.dto.response.AnimalResponseDto;
 import com.patika.veterinaryClinic.dto.response.VeterinaryResponse;
-import com.patika.veterinaryClinic.service.AnimalService;
+import com.patika.veterinaryClinic.service.Interface.AnimalService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

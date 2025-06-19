@@ -15,6 +15,4 @@ public interface CustomerRepo extends JpaRepository<Customer, Long> {
     boolean existsByMail(String mail);
 
     List<Customer> findByNameContainingIgnoreCase(String name);
-
-    Optional<Customer> findByMail(String mail);
 }
