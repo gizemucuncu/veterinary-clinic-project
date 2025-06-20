@@ -67,6 +67,12 @@ Her varlık için ayrı klasörler ve test senaryoları içerir ✅
 
 ---
 
+## 🔎 API Dokümantasyonu
+
+👉 Daha detaylı endpoint bilgisi için [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) dosyasına göz atabilirsiniz.
+
+---
+
 ## 🏁 Başlangıç
 
 ```bash
